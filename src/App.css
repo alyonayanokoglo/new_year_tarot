@@ -1,10 +1,15 @@
 #tarot-container {
   height: 100vh;
+  height: 100dvh; /* Dynamic viewport height для мобильных */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   padding: 90px 20px 20px 20px;
+  padding-top: calc(90px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(20px + env(safe-area-inset-left, 0px));
+  padding-right: calc(20px + env(safe-area-inset-right, 0px));
   font-family: 'Montserrat', sans-serif;
   position: fixed;
   top: 0;
@@ -15,6 +20,26 @@
   perspective: 2000px;
   perspective-origin: center center;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  #tarot-container {
+    padding: 40px 15px 15px 15px;
+    padding-top: calc(40px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+    padding-left: calc(15px + env(safe-area-inset-left, 0px));
+    padding-right: calc(15px + env(safe-area-inset-right, 0px));
+  }
+}
+
+@media (max-width: 480px) {
+  #tarot-container {
+    padding: 20px 10px 10px 10px;
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    padding-left: calc(10px + env(safe-area-inset-left, 0px));
+    padding-right: calc(10px + env(safe-area-inset-right, 0px));
+  }
 }
 
 .hint-text {
