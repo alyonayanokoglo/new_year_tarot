@@ -86,41 +86,40 @@ export async function sharePrediction(cardElement) {
 
 async function captureCardImage(predictionElement) {
   try {
-    // Сохраняем оригинальные стили
-    const originalDisplay = predictionElement.style.display;
-    const originalTransition = predictionElement.style.transition;
-    const originalTransform = predictionElement.style.transform;
-    const originalPosition = predictionElement.style.position;
-    const originalZIndex = predictionElement.style.zIndex;
+    // Создаем клон элемента для создания изображения, чтобы не трогать оригинал
+    const clone = predictionElement.cloneNode(true);
     
-    // Убеждаемся, что элемент видим
-    predictionElement.style.display = 'flex';
-    predictionElement.style.transition = 'none';
-    predictionElement.style.position = 'fixed';
-    predictionElement.style.left = '50%';
-    predictionElement.style.top = '50%';
-    predictionElement.style.transform = 'translate(-50%, -50%) scale(1)';
-    predictionElement.style.zIndex = '10000';
+    // Делаем клон невидимым для пользователя, но доступным для html2canvas
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = predictionElement.offsetWidth + 'px';
+    clone.style.height = predictionElement.offsetHeight + 'px';
+    clone.style.zIndex = '-1';
+    clone.style.visibility = 'hidden';
+    clone.style.opacity = '0';
+    clone.style.pointerEvents = 'none';
+    
+    // Добавляем клон в body (вне экрана)
+    document.body.appendChild(clone);
     
     // Ждем для применения стилей и загрузки изображений
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const canvas = await html2canvas(predictionElement, {
+    const canvas = await html2canvas(clone, {
       backgroundColor: null, // Прозрачный фон, чтобы сохранить оригинальный
       scale: 2, // Хорошее качество без излишнего размера
       useCORS: true,
       logging: false,
       allowTaint: false,
       removeContainer: false,
-      imageTimeout: 15000
+      imageTimeout: 15000,
+      windowWidth: clone.offsetWidth,
+      windowHeight: clone.offsetHeight
     });
     
-    // Восстанавливаем оригинальные стили
-    predictionElement.style.display = originalDisplay;
-    predictionElement.style.transition = originalTransition;
-    predictionElement.style.transform = originalTransform;
-    predictionElement.style.position = originalPosition;
-    predictionElement.style.zIndex = originalZIndex;
+    // Удаляем клон
+    document.body.removeChild(clone);
     
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
@@ -135,41 +134,40 @@ async function captureCardImage(predictionElement) {
 
 async function downloadPredictionImage(predictionElement) {
   try {
-    // Сохраняем оригинальные стили
-    const originalDisplay = predictionElement.style.display;
-    const originalTransition = predictionElement.style.transition;
-    const originalTransform = predictionElement.style.transform;
-    const originalPosition = predictionElement.style.position;
-    const originalZIndex = predictionElement.style.zIndex;
+    // Создаем клон элемента для создания изображения, чтобы не трогать оригинал
+    const clone = predictionElement.cloneNode(true);
     
-    // Убеждаемся, что элемент видим
-    predictionElement.style.display = 'flex';
-    predictionElement.style.transition = 'none';
-    predictionElement.style.position = 'fixed';
-    predictionElement.style.left = '50%';
-    predictionElement.style.top = '50%';
-    predictionElement.style.transform = 'translate(-50%, -50%) scale(1)';
-    predictionElement.style.zIndex = '10000';
+    // Делаем клон невидимым для пользователя, но доступным для html2canvas
+    clone.style.position = 'absolute';
+    clone.style.left = '-9999px';
+    clone.style.top = '0';
+    clone.style.width = predictionElement.offsetWidth + 'px';
+    clone.style.height = predictionElement.offsetHeight + 'px';
+    clone.style.zIndex = '-1';
+    clone.style.visibility = 'hidden';
+    clone.style.opacity = '0';
+    clone.style.pointerEvents = 'none';
+    
+    // Добавляем клон в body (вне экрана)
+    document.body.appendChild(clone);
     
     // Ждем для применения стилей и загрузки изображений
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const canvas = await html2canvas(predictionElement, {
+    const canvas = await html2canvas(clone, {
       backgroundColor: null, // Прозрачный фон, чтобы сохранить оригинальный
       scale: 2, // Хорошее качество без излишнего размера
       useCORS: true,
       logging: false,
       allowTaint: false,
       removeContainer: false,
-      imageTimeout: 15000
+      imageTimeout: 15000,
+      windowWidth: clone.offsetWidth,
+      windowHeight: clone.offsetHeight
     });
     
-    // Восстанавливаем оригинальные стили
-    predictionElement.style.display = originalDisplay;
-    predictionElement.style.transition = originalTransition;
-    predictionElement.style.transform = originalTransform;
-    predictionElement.style.position = originalPosition;
-    predictionElement.style.zIndex = originalZIndex;
+    // Удаляем клон
+    document.body.removeChild(clone);
     
     // Создаем ссылку для скачивания
     const link = document.createElement('a');

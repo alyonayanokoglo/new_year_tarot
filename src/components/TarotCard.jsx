@@ -230,9 +230,6 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
           <button className="share-prediction-btn" onClick={handleShare}>
             Поделиться предсказанием
           </button>
-          <button className="new-reading-btn-prediction" onClick={handleNewReading}>
-            Сделать еще один расклад
-          </button>
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
 // Карты Таро (арканы)
 export const tarotCards = [
-  { number: "XVIII", name: "Фокус", subtitle: "", icon: "", image: "/img/focus.png" },
-  { number: "II", name: "Верховная жрица", subtitle: "Тайны и интуиция", icon: "🌙" },
-  { number: "III", name: "Императрица", subtitle: "Изобилие и плодородие", icon: "👑" },
-  { number: "IV", name: "Император", subtitle: "Власть и стабильность", icon: "⚜️" },
-  { number: "V", name: "Иерофант", subtitle: "Духовное руководство", icon: "🕯️" },
-  { number: "VI", name: "Влюблённые", subtitle: "Выбор и союз", icon: "💫" }
+  { number: "I", name: "Волшебник", subtitle: "", icon: "", image: "/img/mag.png" },
+  { number: "II", name: "Энергия", subtitle: "", icon: "", image: "/img/energy.png" },
+  { number: "III", name: "Фокус", subtitle: "", icon: "", image: "/img/focus.png" },
+  { number: "IV", name: "Баланс", subtitle: "", icon: "", image: "/img/banalce.png" },
+  { number: "V", name: "Вдохновение", subtitle: "", icon: "", image: "/img/exp.png" },
+  { number: "VI", name: "Удача", subtitle: "", icon: "", image: "/img/luck.png" }
 ];
 
 export const predictions = [

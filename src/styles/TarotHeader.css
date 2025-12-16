@@ -51,7 +51,7 @@
 
 .tarot-header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   margin-top: 0;
   transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
@@ -65,14 +65,14 @@
 
 @media (max-width: 768px) {
   .tarot-header {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding: 0 5px;
   }
 }
 
 @media (max-width: 480px) {
   .tarot-header {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     padding: 0 5px;
   }
 }

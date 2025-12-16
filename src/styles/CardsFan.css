@@ -10,7 +10,7 @@
   perspective-origin: center center;
   overflow: visible;
   transform-style: preserve-3d;
-  margin: 15px auto 0 auto;
+  margin: 5px auto 0 auto;
   opacity: 0;
   animation: fadeInCards 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
   box-sizing: border-box;
@@ -25,7 +25,7 @@
 @media (max-width: 480px) {
   .cards-fan {
     height: 300px;
-    margin-top: 10px;
+    margin-top: 0px;
   }
 }
 

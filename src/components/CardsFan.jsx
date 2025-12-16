@@ -11,12 +11,24 @@ function CardsFan({ onCardSelect, selectedCardIndex, onShare, onNewReading, onSh
   const [cardsChanged, setCardsChanged] = useState(false);
 
   const generateCards = useCallback(() => {
-    // Случайно выбираем 6 карт из колоды
+    // Случайно выбираем 6 карт из колоды и добавляем соответствующее предсказание
     const shuffledTarot = [...tarotCards].sort(() => Math.random() - 0.5);
-    const selectedTarot = shuffledTarot.slice(0, 6).map((card, idx) => ({
-      ...card,
-      uniqueId: `${card.name}-${Date.now()}-${idx}`
-    }));
+    const selectedTarot = shuffledTarot.slice(0, 6).map((card, idx) => {
+      // Находим индекс карты в исходном массиве tarotCards
+      const cardIndexInTarotDeck = tarotCards.findIndex(c => 
+        c.name === card.name && c.number === card.number
+      );
+      // Присваиваем соответствующее предсказание по индексу
+      const prediction = cardIndexInTarotDeck >= 0 && cardIndexInTarotDeck < predictions.length 
+        ? predictions[cardIndexInTarotDeck] 
+        : predictions[0];
+      
+      return {
+        ...card,
+        uniqueId: `${card.name}-${Date.now()}-${idx}`,
+        prediction: prediction
+      };
+    });
     setCards(selectedTarot);
   }, []);
 
@@ -51,10 +63,12 @@ function CardsFan({ onCardSelect, selectedCardIndex, onShare, onNewReading, onSh
   }, [onShuffleReady, generateCards]);
 
   const handleCardSelect = (index) => {
-    // Выбираем случайное предсказание
-    const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
-    console.log('CardsFan: Выбрано предсказание:', randomPrediction);
-    setSelectedPrediction(randomPrediction);
+    // Используем предсказание, которое уже привязано к карте
+    const selectedCard = cards[index];
+    const cardPrediction = selectedCard.prediction || predictions[0];
+    
+    console.log('CardsFan: Выбрано предсказание для карты:', selectedCard.name, cardPrediction);
+    setSelectedPrediction(cardPrediction);
     
     onCardSelect(index);
     // Помечаем остальные карты как не выбранные
