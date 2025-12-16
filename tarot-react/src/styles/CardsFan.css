@@ -1,0 +1,227 @@
+.cards-fan {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1500px;
+  perspective-origin: center center;
+  overflow: visible;
+  transform-style: preserve-3d;
+  margin-top: 30px;
+  opacity: 0;
+  animation: fadeInCards 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+}
+
+@keyframes fadeInCards {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Анимация перемешивания карт - плавно и красиво */
+.cards-fan.shuffling {
+  /* Убрали фильтр для лучшей производительности */
+  will-change: transform;
+}
+
+.cards-fan.shuffling .fan-card {
+  animation: shuffleCardDeck 2s ease-in-out forwards;
+  pointer-events: none;
+  will-change: transform, z-index;
+  overflow: visible;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Новые карты, которые появляются в середине анимации, начинают с позиции 50% */
+.cards-fan.shuffling.cards-changed .fan-card {
+  animation: shuffleCardDeck 2s ease-in-out forwards;
+  animation-delay: -1s; /* Начинаем с середины анимации (50%) */
+}
+
+/* Плавный переход после завершения анимации */
+.cards-fan:not(.shuffling) .fan-card {
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out, z-index 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(2) {
+  animation-delay: 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(3) {
+  animation-delay: 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(4) {
+  animation-delay: 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(5) {
+  animation-delay: 0s;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(6) {
+  animation-delay: 0s;
+}
+
+/* Задержки для новых карт (они начинают с середины анимации) */
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(1) {
+  animation-delay: -1s;
+}
+
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(2) {
+  animation-delay: -1s;
+}
+
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(3) {
+  animation-delay: -1s;
+}
+
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(4) {
+  animation-delay: -1s;
+}
+
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(5) {
+  animation-delay: -1s;
+}
+
+.cards-fan.shuffling.cards-changed .fan-card:nth-child(6) {
+  animation-delay: -1s;
+}
+
+@keyframes shuffleCardDeck {
+  0% {
+    transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0)) translateX(var(--tx, 0)) scale(1);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+  
+  /* Плавно собираются в круг */
+  20% {
+    transform: translateY(-100px) 
+               rotateZ(var(--start-angle, 0deg)) 
+               translateX(140px) 
+               scale(0.85);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+  
+  /* Полный оборот вокруг оси Z */
+  50% {
+    transform: translateY(-100px) 
+               rotateZ(calc(var(--start-angle, 0deg) + 360deg)) 
+               translateX(140px) 
+               scale(0.85);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+  
+  /* Начинают возвращаться */
+  70% {
+    transform: translateY(calc(-100px * 0.3 + var(--ty, 0) * 0.3)) 
+               rotateZ(calc(var(--start-angle, 0deg) + 360deg)) 
+               translateX(calc(140px * 0.3 + var(--tx, 0) * 0.3)) 
+               scale(0.92);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+  
+  /* Почти вернулись в веер */
+  90% {
+    transform: rotate(calc(var(--r, 0deg) * 0.96)) 
+               translateY(calc(var(--ty, 0) * 0.96)) 
+               translateX(calc(var(--tx, 0) * 0.96)) 
+               scale(0.98);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+  
+  /* Финальная позиция */
+  100% {
+    transform: rotate(var(--r, 0deg)) 
+               translateY(var(--ty, 0)) 
+               translateX(var(--tx, 0)) 
+               scale(1);
+    opacity: 1;
+    z-index: var(--z, 1);
+  }
+}
+
+/* Специфичные параметры для каждой карты - вращаются вокруг оси Z */
+.cards-fan.shuffling .fan-card:nth-child(1) {
+  --start-angle: 0deg;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(2) {
+  --start-angle: 60deg;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(3) {
+  --start-angle: 120deg;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(4) {
+  --start-angle: 180deg;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(5) {
+  --start-angle: 240deg;
+}
+
+.cards-fan.shuffling .fan-card:nth-child(6) {
+  --start-angle: 300deg;
+}
+
+.shuffle-btn-bottom {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 60px;
+  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  background: #0F8EFF;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000 !important;
+  opacity: 0;
+  pointer-events: auto !important;
+  white-space: nowrap;
+  min-width: 280px;
+  animation: fadeInUp 2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.shuffle-btn-bottom:hover {
+  background: #ffffff;
+  color: #0F8EFF;
+  transform: translateX(-50%) scale(1.05);
+}
+

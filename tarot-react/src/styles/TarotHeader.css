@@ -1,0 +1,155 @@
+@font-face {
+  font-family: 'Bounded';
+  src: url('/fonts/Bounded-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+.tarot-logo {
+  width: 390px;
+  height: auto;
+  margin: -30px auto 25px auto;
+  display: block;
+  opacity: 0;
+  animation: fadeInDown 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  .tarot-logo {
+    width: 280px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tarot-logo {
+    width: 240px;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 375px) {
+  .tarot-logo {
+    width: 200px;
+    margin-bottom: 15px;
+  }
+}
+
+.tarot-logo.hidden {
+  opacity: 0 !important;
+  animation: none;
+}
+
+.tarot-header {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 0;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 100;
+  animation: fadeInDown 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  .tarot-header {
+    margin-bottom: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tarot-header {
+    margin-bottom: 0px;
+  }
+}
+
+.tarot-header.hidden {
+  opacity: 0 !important;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tarot-header h2 {
+  font-family: 'Bounded', 'Montserrat', sans-serif;
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ffffff 0%, #0F8EFF 30%, #ffffff 60%, #0F8EFF 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 12px 0;
+  text-shadow: 0 0 30px rgba(15, 142, 255, 0.5);
+  letter-spacing: 1px;
+  animation: shimmer 4s ease-in-out infinite;
+  position: relative;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* Адаптивный размер для мобильных */
+@media (max-width: 768px) {
+  .tarot-header h2 {
+    font-size: 28px;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tarot-header h2 {
+    font-size: 30px;
+    letter-spacing: 0.5px;
+  }
+}
+
+@media (max-width: 375px) {
+  .tarot-header h2 {
+    font-size: 20px;
+    letter-spacing: 0.3px;
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.tarot-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 20px;
+  margin: 0;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .tarot-header p {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tarot-header p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .tarot-header p {
+    font-size: 13px;
+  }
+}
+

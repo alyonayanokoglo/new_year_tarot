@@ -1,0 +1,1051 @@
+/* Карта в веере */
+.fan-card {
+  width: 120px;
+  height: 187px;
+  aspect-ratio: 9/14;
+  position: absolute;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transform-style: preserve-3d;
+  transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  left: 50%;
+  margin-left: -60px;
+  border: none;
+  border-radius: 14px;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, z-index;
+  perspective: 2000px;
+  -webkit-perspective: 2000px;
+}
+
+/* Карта недоступна для выбора (до перемешивания) */
+.fan-card.disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Грани карты */
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+/* Рубашка */
+.card-back {
+  background: url('/img/cover.png') center/cover no-repeat;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transform: rotateY(0deg);
+  z-index: 2;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255, 255, 255, 0.03) 8px, rgba(255, 255, 255, 0.03) 16px);
+}
+
+.fan-card .card-back-symbol {
+  font-size: 40px;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  z-index: 1;
+  display: none;
+}
+
+/* Лицо - карта Таро (аркан) */
+.card-front {
+  background: linear-gradient(145deg, #f8f4e8, #e8e0d0);
+  border: none;
+  transform: rotateY(180deg);
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+/* Карта, у которой лицо — это одно большое изображение (например, Фокус) */
+.card-front.image-card {
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.tarot-image-full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+
+.tarot-card-number {
+  font-size: 16px;
+  color: #8b7355;
+  margin-bottom: 10px;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+.tarot-card-icon {
+  font-size: 70px;
+  margin: 20px 0;
+}
+
+.tarot-card-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d4a6a;
+  text-align: center;
+  margin: 10px 0 8px 0;
+}
+
+.tarot-card-subtitle {
+  font-size: 13px;
+  color: #4a7c95;
+  text-align: center;
+  font-style: italic;
+}
+
+.tarot-tap-hint {
+  font-size: 11px;
+  color: rgba(45, 70, 100, 0.5);
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(45, 70, 100, 0.15);
+  animation: hintPulse 2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Обратная сторона - предсказание */
+.card-prediction {
+  background: #0F8EFF url('/img/bg_2.svg') center/cover no-repeat;
+  border: none;
+  transform: rotateY(180deg); /* Начальное состояние - невидима когда показывается аркан (обратная сторона) */
+  padding: 20px 18px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+  max-height: 100%;
+  z-index: 10;
+  position: relative;
+  text-align: center;
+  pointer-events: auto !important;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+}
+
+.card-prediction.visible {
+  display: flex !important;
+}
+
+.card-prediction-logo {
+  width: 400px;
+  height: auto;
+  margin: 0 auto 12px auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.card-prediction-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  margin: auto 0;
+}
+
+.card-prediction-header-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 auto 8px auto;
+  text-align: center;
+  width: 100%;
+}
+
+.card-prediction-icon {
+  font-size: 60px;
+  margin: 12px auto;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.card-prediction-title {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 auto 12px auto;
+  line-height: 1.3;
+  width: 100%;
+}
+
+.card-prediction-text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  line-height: 1.3;
+  margin: 0 auto 16px auto;
+  text-align: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.card-prediction-advice-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 16px auto 8px auto;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-prediction-advice {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 3px solid #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0 auto;
+  width: calc(100% - 24px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.card-prediction-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 16px;
+  position: relative;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+}
+
+.share-prediction-btn {
+  margin: 0 auto 12px auto;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #000000;
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  width: calc(100% - 24px);
+  max-width: 280px;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.share-prediction-btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.share-prediction-btn:active {
+  transform: scale(0.98);
+}
+
+.new-reading-btn-prediction {
+  margin: 0 auto;
+  padding: 10px 20px;
+  font-size: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid #ffffff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  width: calc(100% - 24px);
+  max-width: 280px;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.new-reading-btn-prediction:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.new-reading-btn-prediction:active {
+  transform: scale(0.98);
+}
+
+/* Позиции веера - карты расходятся из одной точки */
+/* Карты накладываются по правой стороне - правая карта поверх левых */
+.fan-card:nth-child(1) { 
+  transform: rotate(-28deg) translateY(-12px) translateX(-90px); 
+  z-index: 1;
+  --r: -28deg;
+  --tx: -90px;
+  --ty: -12px;
+  --z: 1;
+}
+.fan-card:nth-child(2) { 
+  transform: rotate(-17deg) translateY(-22px) translateX(-54px); 
+  z-index: 2;
+  --r: -17deg;
+  --tx: -54px;
+  --ty: -22px;
+  --z: 2;
+}
+.fan-card:nth-child(3) { 
+  transform: rotate(-6deg) translateY(-28px) translateX(-18px); 
+  z-index: 3;
+  --r: -6deg;
+  --tx: -18px;
+  --ty: -28px;
+  --z: 3;
+}
+.fan-card:nth-child(4) { 
+  transform: rotate(6deg) translateY(-28px) translateX(18px); 
+  z-index: 4;
+  --r: 6deg;
+  --tx: 18px;
+  --ty: -28px;
+  --z: 4;
+}
+.fan-card:nth-child(5) { 
+  transform: rotate(17deg) translateY(-22px) translateX(54px); 
+  z-index: 5;
+  --r: 17deg;
+  --tx: 54px;
+  --ty: -22px;
+  --z: 5;
+}
+.fan-card:nth-child(6) { 
+  transform: rotate(28deg) translateY(-12px) translateX(90px); 
+  z-index: 6;
+  --r: 28deg;
+  --tx: 90px;
+  --ty: -12px;
+  --z: 6;
+}
+
+/* Выбранная карта - вылетает из веера в центр */
+.fan-card.selected {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: min(85vw, 320px) !important;
+  height: auto !important;
+  aspect-ratio: 9/14 !important;
+  max-height: 70vh !important;
+  z-index: 1500 !important;
+  cursor: pointer;
+  transform-origin: center center !important;
+  transform-style: preserve-3d !important;
+  animation: cardFlyUpMagic 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  perspective: 2000px !important;
+  -webkit-perspective: 2000px !important;
+  margin: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  padding: 0 !important;
+  /* Начальное состояние - сохраняем позицию из веера */
+  animation-fill-mode: both;
+}
+
+@keyframes cardFlyUpMagic {
+  0% {
+    transform: translate3d(calc(-50% + var(--initial-x, 0px)), calc(-50% + var(--initial-y, 0px)), -500px) rotate(var(--r, 0deg)) rotateY(0deg) scale(0.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0px) rotate(0deg) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Анимация возврата карты в колоду */
+@keyframes cardReturnToDeck {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) rotateY(180deg) scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: translate(calc(-50% + var(--tx, 0px) * 0.3), calc(-50% + var(--ty, 0px) * 0.3)) rotate(calc(var(--r, 0deg) * 0.3)) rotateY(90deg) scale(0.8);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translate(calc(-50% + var(--tx, 0px) * 0.7), calc(-50% + var(--ty, 0px) * 0.7)) rotate(calc(var(--r, 0deg) * 0.7)) rotateY(0deg) scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px))) rotate(var(--r, 0deg)) rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Класс для возврата карты в колоду */
+.fan-card.returning {
+  position: absolute !important;
+  animation: cardReturnToDeck 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  top: auto !important;
+  left: 50% !important;
+  width: 120px !important;
+  height: 187px !important;
+  max-height: none !important;
+  margin-left: -60px !important;
+  z-index: var(--z, 1) !important;
+  transform-origin: center bottom !important;
+}
+
+.fan-card.returning .card-back {
+  display: flex !important;
+  animation: flipCardBackReverse 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fan-card.returning .card-front {
+  animation: flipCardFrontReverse 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.fan-card.returning .card-prediction {
+  display: none !important;
+}
+
+@keyframes flipCardBackReverse {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes flipCardFrontReverse {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Анимация переворота сторон карточки */
+@keyframes flipCardBack {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes flipCardFront {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+/* После первого переворота карта аркана видна (0deg) */
+.fan-card.selected.flipped .card-front {
+  transform: rotateY(0deg) !important;
+}
+
+.fan-card.selected .card-back {
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Когда показывается предсказание, скрываем другие стороны */
+.fan-card.showing-prediction {
+  transform: translate3d(-50%, -50%, 0px) rotate(0deg) scale(1) !important;
+  animation: none !important;
+  pointer-events: none !important;
+  z-index: 2000 !important;
+}
+
+.fan-card.showing-prediction .card-back,
+.fan-card.showing-prediction .card-front {
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+.fan-card.showing-prediction .card-prediction {
+  pointer-events: auto !important;
+  z-index: 1000 !important;
+  opacity: 1 !important;
+  display: flex !important;
+  visibility: visible !important;
+  transform: rotateY(0deg) !important; /* Видима сразу, без переворота */
+  position: relative !important;
+  animation: none !important; /* Отключаем анимацию после завершения */
+}
+
+.fan-card.showing-prediction .card-prediction,
+.fan-card.showing-prediction .card-prediction * {
+  pointer-events: auto !important;
+}
+
+/* Убеждаемся, что кнопки всегда кликабельны */
+.fan-card.showing-prediction .share-prediction-btn,
+.fan-card.showing-prediction .new-reading-btn-prediction {
+  pointer-events: auto !important;
+  z-index: 10000 !important;
+  position: relative;
+}
+
+/* Убеждаемся, что контейнер кнопок не перекрывается */
+.fan-card.showing-prediction .card-prediction-buttons {
+  position: relative;
+  z-index: 10001 !important;
+  pointer-events: auto !important;
+}
+
+.fan-card.selected .card-front {
+  border: none;
+  padding: 30px 25px;
+}
+
+.fan-card.selected .card-front.image-card {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+
+.fan-card.selected .tarot-card-number {
+  font-size: 18px;
+}
+
+.fan-card.selected .tarot-card-icon {
+  font-size: 100px;
+  margin: 25px 0;
+}
+
+.fan-card.selected .tarot-card-name {
+  font-size: 28px;
+}
+
+.fan-card.selected .tarot-card-subtitle {
+  font-size: 15px;
+}
+
+.fan-card.selected .tarot-tap-hint {
+  font-size: 12px;
+  margin-top: 25px;
+  padding-top: 18px;
+}
+
+.fan-card.selected .card-prediction {
+  padding: 20px 18px;
+  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  pointer-events: auto !important;
+  z-index: 100 !important;
+}
+
+.fan-card.selected .card-prediction-logo {
+  width: 400px;
+  margin: 0 auto 20px auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.fan-card.selected .card-prediction-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+  gap: 8px;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.fan-card.selected .card-prediction-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+}
+
+.fan-card.selected .card-prediction-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto 0 auto;
+  flex-shrink: 0;
+  padding-top: 0;
+}
+
+.fan-card.selected .card-prediction-title {
+  font-family: 'Bounded', 'Montserrat', sans-serif;
+  font-size: 18px !important;
+  margin: 12px auto 2px auto;
+  line-height: 1.3;
+  text-align: center;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.fan-card.selected .card-prediction-text {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin: 0 auto 8px auto;
+  text-align: center;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  padding: 12px 14px;
+  background: #ffffff;
+  color: #0c0c0c;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.fan-card.selected .card-prediction-advice-label {
+  font-family: 'Bounded', 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #ffffff;
+  text-align: center;
+  margin: 0 auto 4px auto;
+  width: 100%;
+  text-transform: uppercase;
+}
+
+.fan-card.selected .card-prediction-advice {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 0;
+  margin: 0 auto 4px auto;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Переворот большой карты */
+.fan-card.flipped {
+  transform-style: preserve-3d !important;
+}
+
+/* Переворот карты во время полета с 3D эффектом */
+.fan-card.selected.flipped {
+  animation: cardFlyUpMagic 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.fan-card.selected.flipped .card-back {
+  animation: flipCardBack 1.5s ease-in-out 0s forwards;
+}
+
+.fan-card.selected.flipped .card-front {
+  animation: flipCardFront 1.5s ease-in-out 0s forwards;
+}
+
+/* После переворота карта аркана видна (повернута на 0deg) */
+.fan-card.selected.flipped .card-front {
+  transform: rotateY(0deg);
+}
+
+/* Анимация переворота от аркана к предсказанию */
+.fan-card.flipping-to-prediction {
+  transform-style: preserve-3d !important;
+  perspective: 2000px !important;
+  -webkit-perspective: 2000px !important;
+}
+
+.fan-card.flipping-to-prediction .card-front {
+  animation: flipCardFrontToPrediction 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity, visibility;
+  animation-fill-mode: forwards;
+}
+
+.fan-card.flipping-to-prediction .card-prediction {
+  animation: flipCardPredictionFromFront 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 2;
+  visibility: visible !important;
+  display: flex !important;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity, visibility;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flipCardFrontToPrediction {
+  0% {
+    transform: rotateY(0deg) translateZ(0px);
+    opacity: 1;
+    visibility: visible;
+  }
+  20% {
+    transform: rotateY(36deg) translateZ(6px);
+    opacity: 0.7;
+    visibility: visible;
+  }
+  40% {
+    transform: rotateY(72deg) translateZ(10px);
+    opacity: 0.2;
+    visibility: visible;
+  }
+  50% {
+    transform: rotateY(90deg) translateZ(12px);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: rotateY(180deg) translateZ(0px);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes flipCardPredictionFromFront {
+  0% {
+    transform: rotateY(180deg) translateZ(0px);
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    transform: rotateY(90deg) translateZ(12px);
+    opacity: 0;
+    visibility: visible;
+  }
+  60% {
+    transform: rotateY(54deg) translateZ(10px);
+    opacity: 0.3;
+    visibility: visible;
+  }
+  80% {
+    transform: rotateY(18deg) translateZ(6px);
+    opacity: 0.8;
+    visibility: visible;
+  }
+  100% {
+    transform: rotateY(0deg) translateZ(0px);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+
+@keyframes cardPulse {
+  0%, 100% {
+    transform: translate3d(-50%, -50%, 0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate3d(-50%, -50%, 0px) rotate(0deg) scale(1.03);
+  }
+}
+
+/* Не выбранные карты */
+.fan-card.not-selected {
+  animation: fadeOut 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0)) translateX(var(--tx, 0)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0)) translateX(var(--tx, 0)) scale(0.8);
+  }
+}
+
+/* Media queries */
+@media (max-width: 400px) {
+  .fan-card {
+    width: 85px;
+    height: auto;
+    aspect-ratio: 9/14;
+    margin-left: -42.5px;
+  }
+  
+  .fan-card.selected {
+    width: calc(100vw - 40px) !important;
+    max-width: 320px !important;
+    max-height: 80vh !important;
+  }
+  
+  .fan-card.selected .card-prediction-logo {
+    width: 200px !important;
+  }
+  
+  .fan-card.selected .card-prediction-icon {
+    font-size: 45px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 16px !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 11px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 11px !important;
+    padding: 8px 16px !important;
+  }
+  
+  .fan-card.selected .card-prediction-buttons {
+    padding-top: 12px !important;
+  }
+}
+
+@media (min-width: 401px) and (max-width: 414px) {
+  .fan-card {
+    width: 95px;
+    height: auto;
+    aspect-ratio: 9/14;
+    margin-left: -47.5px;
+  }
+  
+  .fan-card.selected {
+    width: min(85vw, 300px) !important;
+    max-height: 80vh !important;
+  }
+  
+  .fan-card.selected .card-prediction-logo {
+    width: 280px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 17px !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 11px !important;
+    padding: 10px 12px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice-label {
+    font-size: 13px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice {
+    font-size: 10px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 11px !important;
+    padding: 8px 16px !important;
+  }
+}
+
+/* Планшеты */
+@media (min-width: 415px) and (max-width: 768px) {
+  .fan-card.selected .card-prediction-logo {
+    width: 320px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 18px !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 13px !important;
+    padding: 14px 16px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice-label {
+    font-size: 14px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice {
+    font-size: 11px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 13px !important;
+    padding: 12px 24px !important;
+  }
+}
+
+/* Средние мобильные (375px - 400px) */
+@media (min-width: 375px) and (max-width: 400px) {
+  .fan-card.selected .card-prediction-logo {
+    width: 220px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 16px !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 11px !important;
+    padding: 10px 12px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice-label {
+    font-size: 13px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice {
+    font-size: 10px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 11px !important;
+    padding: 8px 16px !important;
+  }
+}
+
+/* Очень маленькие экраны (меньше 375px) */
+@media (max-width: 374px) {
+  .fan-card.selected .card-prediction-logo {
+    width: 180px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 15px !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 10px !important;
+    padding: 8px 10px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice-label {
+    font-size: 12px !important;
+  }
+  
+  .fan-card.selected .card-prediction-advice {
+    font-size: 9px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 10px !important;
+    padding: 7px 14px !important;
+  }
+}
+
+@media (max-height: 700px) {
+  .fan-card.selected {
+    max-height: 80vh !important;
+  }
+  
+  .fan-card.selected .card-prediction-logo {
+    width: 250px !important;
+  }
+  
+  .fan-card.selected .card-prediction-title {
+    font-size: 16px !important;
+    margin: 8px auto 2px auto !important;
+  }
+  
+  .fan-card.selected .card-prediction-text {
+    font-size: 11px !important;
+    padding: 10px 12px !important;
+  }
+  
+  .fan-card.selected .share-prediction-btn,
+  .fan-card.selected .new-reading-btn-prediction {
+    font-size: 11px !important;
+    padding: 8px 16px !important;
+  }
+  
+  .fan-card.selected .card-prediction-buttons {
+    padding-top: 10px !important;
+  }
+}
+
