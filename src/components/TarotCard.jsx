@@ -60,6 +60,13 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
         if (textEl) textEl.innerText = prediction.text || '';
         if (adviceEl) adviceEl.innerText = prediction.advice || '';
         
+        // Делаем предсказание видимым для анимации (но еще повернутым)
+        const predictionFace = cardRef.current.querySelector('.card-prediction');
+        if (predictionFace) {
+          predictionFace.style.display = 'flex';
+          predictionFace.style.visibility = 'visible';
+        }
+        
         // Запускаем анимацию переворота
         setIsFlippingToPrediction(true);
         
@@ -76,7 +83,7 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
               cardFront.style.visibility = 'hidden';
             }
           }
-        }, 800); // Длительность анимации переворота
+        }, 900); // Длительность анимации переворота
       }
     }
   };
@@ -208,7 +215,7 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
       {/* Сторона с предсказанием - обратная сторона карты аркана */}
       <div 
         className={`card-face card-prediction ${showPrediction ? 'visible' : ''} ${isFlippingToPrediction ? 'flipping-from-front' : ''}`} 
-        style={showPrediction || isFlippingToPrediction ? { display: 'flex' } : { display: 'none' }}
+        style={showPrediction || isFlippingToPrediction ? { display: 'flex', visibility: 'visible' } : { display: 'none' }}
       >
         <img src="/img/Logo Long NEW.svg" alt="Logo" className="card-prediction-logo" />
         <div className="card-prediction-content">

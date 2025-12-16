@@ -10,9 +10,10 @@
   perspective-origin: center center;
   overflow: visible;
   transform-style: preserve-3d;
-  margin-top: 15px;
+  margin: 15px auto 0 auto;
   opacity: 0;
   animation: fadeInCards 2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
@@ -224,6 +225,9 @@
   pointer-events: auto !important;
   white-space: nowrap;
   min-width: 280px;
+  max-width: calc(100vw - 40px);
+  max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 40px);
+  box-sizing: border-box;
   animation: fadeInUp 2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
 }
 
@@ -231,6 +235,8 @@
   .shuffle-btn-bottom {
     padding: 15px 40px;
     min-width: 240px;
+    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 20px);
     font-size: 14px;
   }
 }

@@ -37,6 +37,8 @@
   overflow: hidden;
   transform-style: preserve-3d;
   transform-origin: center center;
+  perspective: 2000px;
+  -webkit-perspective: 2000px;
 }
 
 /* Рубашка */
@@ -52,6 +54,8 @@
   z-index: 2;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
 }
 
 .card-back::before {
@@ -415,7 +419,10 @@
   bottom: auto !important;
   padding: 0 !important;
   /* Начальное состояние - сохраняем позицию из веера */
-  animation-fill-mode: both;
+  animation-fill-mode: backwards;
+  /* Применяем начальное состояние анимации сразу, чтобы карта не прыгала */
+  transform: translate3d(calc(-50% + var(--initial-x, 0px)), calc(-50% + var(--initial-y, 0px)), -500px) rotate(var(--r, 0deg)) rotateY(0deg) scale(0.3);
+  opacity: 1;
 }
 
 @keyframes cardFlyUpMagic {
@@ -494,7 +501,7 @@
   }
 }
 
-/* Анимация переворота сторон карточки */
+/* Анимация переворота сторон карточки - синхронизированы */
 @keyframes flipCardBack {
   0% {
     transform: rotateY(0deg);
@@ -513,10 +520,6 @@
   }
 }
 
-/* После первого переворота карта аркана видна (0deg) */
-.fan-card.selected.flipped .card-front {
-  transform: rotateY(0deg) !important;
-}
 
 .fan-card.selected .card-back {
   border: none;
@@ -720,101 +723,81 @@
 }
 
 .fan-card.selected.flipped .card-back {
-  animation: flipCardBack 1.5s ease-in-out 0s forwards;
+  animation: flipCardBack 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0s forwards !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  transform-origin: center center;
+  transform: rotateY(0deg); /* Начальное состояние - рубашка видна */
+  z-index: 2; /* Рубашка поверх в начале */
+  display: flex !important; /* Убеждаемся, что рубашка видна */
 }
 
-.fan-card.selected.flipped .card-front {
-  animation: flipCardFront 1.5s ease-in-out 0s forwards;
+.fan-card.selected.flipped .card-front:not(.flipping-to-prediction) {
+  animation: flipCardFront 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0s forwards !important;
+  transform-style: preserve-3d !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  transform-origin: center center;
+  transform: rotateY(180deg); /* Начальное состояние - карта аркана скрыта */
+  z-index: 1; /* Карта аркана под рубашкой в начале */
+  display: flex !important;
 }
 
-/* После переворота карта аркана видна (повернута на 0deg) */
-.fan-card.selected.flipped .card-front {
-  transform: rotateY(0deg);
-}
 
 /* Анимация переворота от аркана к предсказанию */
 .fan-card.flipping-to-prediction {
   transform-style: preserve-3d !important;
-  perspective: 2000px !important;
-  -webkit-perspective: 2000px !important;
+  perspective: 1500px !important;
+  -webkit-perspective: 1500px !important;
 }
 
 .fan-card.flipping-to-prediction .card-front {
-  animation: flipCardFrontToPrediction 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: flipCardFrontHide 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards !important;
   z-index: 1;
   pointer-events: none;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  will-change: transform, opacity, visibility;
-  animation-fill-mode: forwards;
+  transform-origin: center center;
+  transform: rotateY(0deg); /* Начальное состояние перед анимацией */
+  will-change: transform, opacity;
 }
 
 .fan-card.flipping-to-prediction .card-prediction {
-  animation: flipCardPredictionFromFront 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  z-index: 2;
+  animation: flipCardPredictionReveal 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  z-index: 1;
   visibility: visible !important;
   display: flex !important;
   pointer-events: none;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  will-change: transform, opacity, visibility;
-  animation-fill-mode: forwards;
+  transform-origin: center center;
+  /* Начальное состояние - повернута на 180deg (скрыта за арканом) */
+  transform: rotateY(180deg);
+  will-change: transform, opacity;
 }
 
-@keyframes flipCardFrontToPrediction {
+/* Анимация скрытия аркана - поворот от 0deg к 180deg */
+@keyframes flipCardFrontHide {
   0% {
-    transform: rotateY(0deg) translateZ(0px);
-    opacity: 1;
-    visibility: visible;
-  }
-  20% {
-    transform: rotateY(36deg) translateZ(6px);
-    opacity: 0.7;
-    visibility: visible;
-  }
-  40% {
-    transform: rotateY(72deg) translateZ(10px);
-    opacity: 0.2;
-    visibility: visible;
-  }
-  50% {
-    transform: rotateY(90deg) translateZ(12px);
-    opacity: 0;
-    visibility: hidden;
+    transform: rotateY(0deg);
   }
   100% {
-    transform: rotateY(180deg) translateZ(0px);
-    opacity: 0;
+    transform: rotateY(180deg);
     visibility: hidden;
   }
 }
 
-@keyframes flipCardPredictionFromFront {
+/* Анимация показа предсказания - поворот от 180deg к 0deg */
+@keyframes flipCardPredictionReveal {
   0% {
-    transform: rotateY(180deg) translateZ(0px);
-    opacity: 0;
-    visibility: hidden;
-  }
-  50% {
-    transform: rotateY(90deg) translateZ(12px);
-    opacity: 0;
-    visibility: visible;
-  }
-  60% {
-    transform: rotateY(54deg) translateZ(10px);
-    opacity: 0.3;
-    visibility: visible;
-  }
-  80% {
-    transform: rotateY(18deg) translateZ(6px);
-    opacity: 0.8;
+    transform: rotateY(180deg);
     visibility: visible;
   }
   100% {
-    transform: rotateY(0deg) translateZ(0px);
-    opacity: 1;
+    transform: rotateY(0deg);
     visibility: visible;
   }
 }

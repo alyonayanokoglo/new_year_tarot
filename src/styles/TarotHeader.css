@@ -7,8 +7,10 @@
 
 .tarot-logo {
   width: 390px;
+  max-width: calc(100vw - 40px);
+  max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 40px);
   height: auto;
-  margin: -30px auto 25px auto;
+  margin: 0 auto 25px auto;
   display: block;
   opacity: 0;
   animation: fadeInDown 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
@@ -18,21 +20,27 @@
 @media (max-width: 768px) {
   .tarot-logo {
     width: 280px;
+    max-width: calc(100vw - 30px);
+    max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 30px);
     margin-bottom: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .tarot-logo {
-    width: 240px;
-    margin-bottom: 18px;
+    width: 90%;
+    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 20px);
+    margin-bottom: 15px;
   }
 }
 
 @media (max-width: 375px) {
   .tarot-logo {
-    width: 200px;
-    margin-bottom: 15px;
+    width: 85%;
+    max-width: calc(100vw - 20px);
+    max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 20px);
+    margin-bottom: 12px;
   }
 }
 
@@ -49,17 +57,23 @@
   position: relative;
   z-index: 100;
   animation: fadeInDown 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 @media (max-width: 768px) {
   .tarot-header {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+    padding: 0 5px;
   }
 }
 
 @media (max-width: 480px) {
   .tarot-header {
-    margin-bottom: 0px;
+    margin-bottom: 10px;
+    padding: 0 5px;
   }
 }
 
@@ -87,13 +101,17 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0 0 12px 0;
+  margin: 0 auto 12px auto;
   text-shadow: 0 0 30px rgba(15, 142, 255, 0.5);
   letter-spacing: 1px;
   animation: shimmer 4s ease-in-out infinite;
   position: relative;
   line-height: 1.2;
   text-transform: uppercase;
+  text-align: center;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
 }
 
 /* Адаптивный размер для мобильных */
@@ -106,8 +124,9 @@
 
 @media (max-width: 480px) {
   .tarot-header h2 {
-    font-size: 30px;
+    font-size: 24px;
     letter-spacing: 0.5px;
+    padding: 0 5px;
   }
 }
 
