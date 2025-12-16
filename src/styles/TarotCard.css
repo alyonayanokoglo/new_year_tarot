@@ -401,7 +401,7 @@
 /* Выбранная карта - вылетает из веера в центр */
 .fan-card.selected {
   position: fixed !important;
-  top: 50% !important;
+  top: 25% !important;
   left: 50% !important;
   right: auto !important;
   bottom: auto !important;
@@ -441,6 +441,7 @@
 /* Гарантируем отсутствие наклона после завершения анимации вылета - карта должна быть строго по центру без наклона */
 .fan-card.selected.flipped:not(.returning) {
   transform: translate3d(-50%, -50%, 0px) rotate(0deg) rotateY(0deg) scale(1) !important;
+  top: 25% !important;
 }
 
 /* Дополнительная гарантия для всех выбранных карт - убираем наклон из веера */
@@ -541,7 +542,7 @@
 /* Когда показывается предсказание, скрываем другие стороны */
 .fan-card.showing-prediction {
   position: fixed !important;
-  top: 50% !important;
+  top: 25% !important;
   left: 50% !important;
   right: auto !important;
   bottom: auto !important;
@@ -744,7 +745,7 @@
 /* Переворот карты во время полета с 3D эффектом */
 .fan-card.selected.flipped {
   position: fixed !important;
-  top: 50% !important;
+  top: 25% !important;
   left: 50% !important;
   animation: cardFlyUpMagic 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
@@ -866,7 +867,7 @@
   
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     width: calc(100vw - 40px) !important;
     max-width: 320px !important;
@@ -911,7 +912,7 @@
   
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     width: min(85vw, 300px) !important;
     max-height: 80vh !important;
@@ -950,7 +951,7 @@
 @media (min-width: 415px) and (max-width: 768px) {
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     transform: translate3d(-50%, -50%, 0px) !important;
   }
@@ -987,7 +988,7 @@
 @media (min-width: 375px) and (max-width: 400px) {
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     transform: translate3d(-50%, -50%, 0px) !important;
   }
@@ -1024,7 +1025,7 @@
 @media (max-width: 374px) {
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     transform: translate3d(-50%, -50%, 0px) !important;
   }
@@ -1060,7 +1061,7 @@
 @media (max-height: 700px) {
   .fan-card.selected {
     position: fixed !important;
-    top: 50% !important;
+    top: 25% !important;
     left: 50% !important;
     max-height: 80vh !important;
     transform: translate3d(-50%, -50%, 0px) !important;
