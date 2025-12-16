@@ -90,24 +90,49 @@ async function captureCardImage(predictionElement) {
     const clone = predictionElement.cloneNode(true);
     
     // Делаем клон невидимым для пользователя, но доступным для html2canvas
-    clone.style.position = 'absolute';
+    // Используем position: fixed и убираем за пределы экрана, но оставляем видимым для html2canvas
+    clone.style.position = 'fixed';
     clone.style.left = '-9999px';
     clone.style.top = '0';
     clone.style.width = predictionElement.offsetWidth + 'px';
     clone.style.height = predictionElement.offsetHeight + 'px';
-    clone.style.zIndex = '-1';
-    clone.style.visibility = 'hidden';
-    clone.style.opacity = '0';
+    clone.style.zIndex = '-9999';
+    clone.style.visibility = 'visible';
+    clone.style.opacity = '1';
     clone.style.pointerEvents = 'none';
+    // Убеждаемся, что фон виден
+    clone.style.background = window.getComputedStyle(predictionElement).background || '#0F8EFF';
+    clone.style.backgroundColor = window.getComputedStyle(predictionElement).backgroundColor || '#0F8EFF';
     
     // Добавляем клон в body (вне экрана)
     document.body.appendChild(clone);
     
     // Ждем для применения стилей и загрузки изображений
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Получаем вычисленный цвет фона и стили
+    const computedStyle = window.getComputedStyle(predictionElement);
+    const bgColor = computedStyle.backgroundColor || '#0F8EFF';
+    const backgroundImage = computedStyle.backgroundImage;
+    const background = computedStyle.background || `#0F8EFF url("/img/bg_2.svg") center/cover no-repeat`;
+    
+    // Ждем загрузки фонового изображения
+    if (backgroundImage && backgroundImage !== 'none') {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      const imageUrl = backgroundImage.match(/url\(["']?([^"']+)["']?\)/)?.[1];
+      if (imageUrl) {
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = resolve; // Продолжаем даже если изображение не загрузилось
+          img.src = imageUrl.startsWith('/') ? window.location.origin + imageUrl : imageUrl;
+          setTimeout(resolve, 1000); // Таймаут на случай проблем с загрузкой
+        });
+      }
+    }
     
     const canvas = await html2canvas(clone, {
-      backgroundColor: null, // Прозрачный фон, чтобы сохранить оригинальный
+      backgroundColor: bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent' ? bgColor : '#0F8EFF',
       scale: 2, // Хорошее качество без излишнего размера
       useCORS: true,
       logging: false,
@@ -115,7 +140,21 @@ async function captureCardImage(predictionElement) {
       removeContainer: false,
       imageTimeout: 15000,
       windowWidth: clone.offsetWidth,
-      windowHeight: clone.offsetHeight
+      windowHeight: clone.offsetHeight,
+      onclone: (clonedDoc, element) => {
+        // Находим клонированный элемент в клонированном документе
+        // html2canvas клонирует весь body, поэтому ищем элемент по классу
+        const clonedElement = clonedDoc.querySelector('.card-prediction') || element;
+        if (clonedElement) {
+          // Убеждаемся, что фон правильно установлен
+          clonedElement.style.background = background;
+          clonedElement.style.backgroundColor = bgColor;
+          clonedElement.style.backgroundImage = backgroundImage !== 'none' ? backgroundImage : '';
+          clonedElement.style.backgroundSize = 'cover';
+          clonedElement.style.backgroundPosition = 'center';
+          clonedElement.style.backgroundRepeat = 'no-repeat';
+        }
+      }
     });
     
     // Удаляем клон
@@ -138,24 +177,49 @@ async function downloadPredictionImage(predictionElement) {
     const clone = predictionElement.cloneNode(true);
     
     // Делаем клон невидимым для пользователя, но доступным для html2canvas
-    clone.style.position = 'absolute';
+    // Используем position: fixed и убираем за пределы экрана, но оставляем видимым для html2canvas
+    clone.style.position = 'fixed';
     clone.style.left = '-9999px';
     clone.style.top = '0';
     clone.style.width = predictionElement.offsetWidth + 'px';
     clone.style.height = predictionElement.offsetHeight + 'px';
-    clone.style.zIndex = '-1';
-    clone.style.visibility = 'hidden';
-    clone.style.opacity = '0';
+    clone.style.zIndex = '-9999';
+    clone.style.visibility = 'visible';
+    clone.style.opacity = '1';
     clone.style.pointerEvents = 'none';
+    // Убеждаемся, что фон виден
+    clone.style.background = window.getComputedStyle(predictionElement).background || '#0F8EFF';
+    clone.style.backgroundColor = window.getComputedStyle(predictionElement).backgroundColor || '#0F8EFF';
     
     // Добавляем клон в body (вне экрана)
     document.body.appendChild(clone);
     
     // Ждем для применения стилей и загрузки изображений
-    await new Promise(resolve => setTimeout(resolve, 200));
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Получаем вычисленный цвет фона и стили
+    const computedStyle = window.getComputedStyle(predictionElement);
+    const bgColor = computedStyle.backgroundColor || '#0F8EFF';
+    const backgroundImage = computedStyle.backgroundImage;
+    const background = computedStyle.background || `#0F8EFF url("/img/bg_2.svg") center/cover no-repeat`;
+    
+    // Ждем загрузки фонового изображения
+    if (backgroundImage && backgroundImage !== 'none') {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      const imageUrl = backgroundImage.match(/url\(["']?([^"']+)["']?\)/)?.[1];
+      if (imageUrl) {
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = resolve; // Продолжаем даже если изображение не загрузилось
+          img.src = imageUrl.startsWith('/') ? window.location.origin + imageUrl : imageUrl;
+          setTimeout(resolve, 1000); // Таймаут на случай проблем с загрузкой
+        });
+      }
+    }
     
     const canvas = await html2canvas(clone, {
-      backgroundColor: null, // Прозрачный фон, чтобы сохранить оригинальный
+      backgroundColor: bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent' ? bgColor : '#0F8EFF',
       scale: 2, // Хорошее качество без излишнего размера
       useCORS: true,
       logging: false,
@@ -163,7 +227,21 @@ async function downloadPredictionImage(predictionElement) {
       removeContainer: false,
       imageTimeout: 15000,
       windowWidth: clone.offsetWidth,
-      windowHeight: clone.offsetHeight
+      windowHeight: clone.offsetHeight,
+      onclone: (clonedDoc, element) => {
+        // Находим клонированный элемент в клонированном документе
+        // html2canvas клонирует весь body, поэтому ищем элемент по классу
+        const clonedElement = clonedDoc.querySelector('.card-prediction') || element;
+        if (clonedElement) {
+          // Убеждаемся, что фон правильно установлен
+          clonedElement.style.background = background;
+          clonedElement.style.backgroundColor = bgColor;
+          clonedElement.style.backgroundImage = backgroundImage !== 'none' ? backgroundImage : '';
+          clonedElement.style.backgroundSize = 'cover';
+          clonedElement.style.backgroundPosition = 'center';
+          clonedElement.style.backgroundRepeat = 'no-repeat';
+        }
+      }
     });
     
     // Удаляем клон

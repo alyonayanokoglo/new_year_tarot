@@ -1,7 +1,7 @@
 /* Карта в веере */
 .fan-card {
-  width: 120px;
-  height: 187px;
+  width: 160px;
+  height: 249px;
   aspect-ratio: 9/14;
   position: absolute;
   cursor: pointer;
@@ -9,7 +9,7 @@
   transform-style: preserve-3d;
   transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
   left: 50%;
-  margin-left: -60px;
+  margin-left: -80px;
   border: none;
   border-radius: 14px;
   box-sizing: border-box;
@@ -187,7 +187,7 @@
 }
 
 .card-prediction-logo {
-  width: 400px;
+  width: 250px;
   height: auto;
   margin: 0 auto 12px auto;
   display: block;
@@ -350,51 +350,51 @@
 /* Позиции веера - карты расходятся из одной точки */
 /* Карты накладываются по правой стороне - правая карта поверх левых */
 .fan-card:nth-child(1) { 
-  transform: rotate(-28deg) translateY(-12px) translateX(-90px); 
+  transform: rotate(-8deg) translateY(-8px) translateX(-50px); 
   z-index: 1;
-  --r: -28deg;
-  --tx: -90px;
-  --ty: -12px;
+  --r: -8deg;
+  --tx: -50px;
+  --ty: -8px;
   --z: 1;
 }
 .fan-card:nth-child(2) { 
-  transform: rotate(-17deg) translateY(-22px) translateX(-54px); 
+  transform: rotate(-5deg) translateY(-10px) translateX(-30px); 
   z-index: 2;
-  --r: -17deg;
-  --tx: -54px;
-  --ty: -22px;
+  --r: -5deg;
+  --tx: -30px;
+  --ty: -10px;
   --z: 2;
 }
 .fan-card:nth-child(3) { 
-  transform: rotate(-6deg) translateY(-28px) translateX(-18px); 
+  transform: rotate(-2deg) translateY(-12px) translateX(-10px); 
   z-index: 3;
-  --r: -6deg;
-  --tx: -18px;
-  --ty: -28px;
+  --r: -2deg;
+  --tx: -10px;
+  --ty: -12px;
   --z: 3;
 }
 .fan-card:nth-child(4) { 
-  transform: rotate(6deg) translateY(-28px) translateX(18px); 
+  transform: rotate(2deg) translateY(-12px) translateX(10px); 
   z-index: 4;
-  --r: 6deg;
-  --tx: 18px;
-  --ty: -28px;
+  --r: 2deg;
+  --tx: 10px;
+  --ty: -12px;
   --z: 4;
 }
 .fan-card:nth-child(5) { 
-  transform: rotate(17deg) translateY(-22px) translateX(54px); 
+  transform: rotate(5deg) translateY(-10px) translateX(30px); 
   z-index: 5;
-  --r: 17deg;
-  --tx: 54px;
-  --ty: -22px;
+  --r: 5deg;
+  --tx: 30px;
+  --ty: -10px;
   --z: 5;
 }
 .fan-card:nth-child(6) { 
-  transform: rotate(28deg) translateY(-12px) translateX(90px); 
+  transform: rotate(8deg) translateY(-8px) translateX(50px); 
   z-index: 6;
-  --r: 28deg;
-  --tx: 90px;
-  --ty: -12px;
+  --r: 8deg;
+  --tx: 50px;
+  --ty: -8px;
   --z: 6;
 }
 
@@ -438,6 +438,16 @@
   }
 }
 
+/* Гарантируем отсутствие наклона после завершения анимации вылета - карта должна быть строго по центру без наклона */
+.fan-card.selected.flipped:not(.returning) {
+  transform: translate3d(-50%, -50%, 0px) rotate(0deg) rotateY(0deg) scale(1) !important;
+}
+
+/* Дополнительная гарантия для всех выбранных карт - убираем наклон из веера */
+.fan-card.selected:not(.returning) {
+  --r: 0deg !important;
+}
+
 /* Анимация возврата карты в колоду */
 @keyframes cardReturnToDeck {
   0% {
@@ -464,10 +474,10 @@
   animation: cardReturnToDeck 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   top: auto !important;
   left: 50% !important;
-  width: 120px !important;
-  height: 187px !important;
+  width: 160px !important;
+  height: 249px !important;
   max-height: none !important;
-  margin-left: -60px !important;
+  margin-left: -80px !important;
   z-index: var(--z, 1) !important;
   transform-origin: center bottom !important;
 }
@@ -633,7 +643,7 @@
 }
 
 .fan-card.selected .card-prediction-logo {
-  width: 400px;
+  width: 250px;
   margin: 0 auto 12px auto;
   display: block;
   flex-shrink: 0;
@@ -865,7 +875,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 200px !important;
+    width: 150px !important;
   }
   
   .fan-card.selected .card-prediction-icon {
@@ -909,7 +919,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 280px !important;
+    width: 200px !important;
   }
   
   .fan-card.selected .card-prediction-title {
@@ -946,7 +956,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 320px !important;
+    width: 180px !important;
   }
   
   .fan-card.selected .card-prediction-title {
@@ -983,7 +993,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 220px !important;
+    width: 180px !important;
   }
   
   .fan-card.selected .card-prediction-title {
@@ -1020,7 +1030,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 180px !important;
+    width: 140px !important;
   }
   
   .fan-card.selected .card-prediction-title {
@@ -1057,7 +1067,7 @@
   }
   
   .fan-card.selected .card-prediction-logo {
-    width: 250px !important;
+    width: 180px !important;
   }
   
   .fan-card.selected .card-prediction-title {
