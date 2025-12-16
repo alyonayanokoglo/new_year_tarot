@@ -34,11 +34,14 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
       if (cardRef.current) {
         const rect = cardRef.current.getBoundingClientRect();
         const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
+        // Финальная позиция top: 25%, поэтому вычисляем смещение относительно 25% от высоты экрана
+        const finalTop = window.innerHeight * 0.25;
         
-        // Вычисляем смещение от центра экрана до центра карты
+        // Вычисляем смещение от центра экрана по X (для left: 50%)
         const initialX = rect.left + rect.width / 2 - centerX;
-        const initialY = rect.top + rect.height / 2 - centerY;
+        // Вычисляем смещение от финальной позиции top: 25% по Y
+        // Учитываем, что translateY(-50%) центрирует карту относительно её высоты
+        const initialY = (rect.top + rect.height / 2) - finalTop;
         
         // Сохраняем в ref для использования в useEffect
         initialPositionRef.current = { x: initialX, y: initialY };
@@ -48,6 +51,18 @@ function TarotCard({ card, index, totalCards, onSelect, isSelected, isNotSelecte
         cardRef.current.style.setProperty('--initial-y', `${initialY}px`);
       }
       onSelect();
+      
+      // Применяем начальный transform сразу после вызова onSelect(), чтобы избежать визуального "прыжка"
+      // Используем двойной requestAnimationFrame для гарантии применения после обновления DOM
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (cardRef.current && initialPositionRef.current) {
+            const { x: initialX, y: initialY } = initialPositionRef.current;
+            const rotation = window.getComputedStyle(cardRef.current).getPropertyValue('--r') || '0deg';
+            cardRef.current.style.transform = `translate3d(calc(-50% + ${initialX}px), calc(-50% + ${initialY}px), -500px) rotate(${rotation}) rotateY(0deg) scale(0.3)`;
+          }
+        });
+      });
     } else if (isSelected && isFlipped && !showPrediction && !isFlippingToPrediction) {
       // Показываем предсказание при клике на перевернутую карту с анимацией переворота
       if (prediction && cardRef.current) {
