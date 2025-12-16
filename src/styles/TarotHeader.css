@@ -6,12 +6,15 @@
 }
 
 .tarot-logo {
-  width: 390px;
+  width: 250px;
   max-width: calc(100vw - 40px);
   max-width: calc(100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) - 40px);
   height: auto;
   margin: 0 auto 25px auto;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   opacity: 0;
   animation: fadeInDown 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
   transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -101,7 +104,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0 auto 12px auto;
+  margin: 0 auto 0px auto;
   text-shadow: 0 0 30px rgba(15, 142, 255, 0.5);
   letter-spacing: 1px;
   animation: shimmer 4s ease-in-out infinite;
@@ -124,7 +127,7 @@
 
 @media (max-width: 480px) {
   .tarot-header h2 {
-    font-size: 24px;
+    font-size: 30px;
     letter-spacing: 0.5px;
     padding: 0 5px;
   }
